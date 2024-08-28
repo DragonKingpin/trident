@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.PluginFeatureMapper">
+
+    <resultMap id="PluginFeatureResultMap" type="com.sauron.saurye.domain.pojo.PluginFeature">
+        <id property="id" column="id"/>
+        <result property="infoId" column="info_id"/>
+    </resultMap>
+    <insert id="insertPluginFeature">
+        insert into trident_plugin_features(info_id)
+        values(#{infoId})
+    </insert>
+    <delete id="deletePluginFeatureByInfoId">
+        delete from trident_plugin_features
+        where info_id = #{featureId}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.NotePluginMapper">
+
+    <resultMap id="NotePluginResultMap" type="com.sauron.saurye.domain.pojo.Plugin">
+        <id property="id" column="id"/>
+        <result property="createDateTime" column="create_date_time"/>
+        <result property="pluginName" column="plugin_name"/>
+        <result property="categoryId" column="category_id"/>
+    </resultMap>
+
+    <insert id="insertNotePlugin" useGeneratedKeys="true" keyProperty="id" parameterType="com.sauron.saurye.domain.pojo.Plugin">
+        insert into trident_work_note_plugin_type
+            (plugin_name, create_date_time,category_id)
+        values (#{pluginName}, #{createDateTime},#{categoryId})
+    </insert>
+    <update id="updateNotePlugin">
+        update trident_work_note_plugin_type
+        <set>
+            <if test="pluginName != null">
+                plugin_name = #{pluginName},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="updatePluginCategoryUncategorizedByCategoryId">
+        update trident_work_note_plugin_type
+        set category_id = -1
+        where category_id = #{categoryId}
+    </update>
+
+
+    <delete id="deleteNotePluginId">
+        delete
+        from trident_work_note_plugin_type
+        where id = #{pluginId}
+    </delete>
+
+    <select id="selectByNoteId" resultType="com.sauron.saurye.domain.pojo.Plugin" resultMap="NotePluginResultMap">
+        select p.*
+        from trident_work_note_plugin_type p
+        where p.id in (select np.plugin_id
+                       from trident_work_note_plugin_link np
+                       where np.note_id = #{noteId})
+    </select>
+
+    <select id="selectByPluginName" resultType="com.sauron.saurye.domain.pojo.Plugin">
+        select *
+        from trident_work_note_plugin_type
+        where plugin_name = #{pluginName}
+    </select>
+
+    <select id="selectPluginsByNoteId" resultType="com.sauron.saurye.domain.pojo.Plugin" resultMap="NotePluginResultMap">
+        select np.*
+        from trident_work_note_plugin_type np
+        where np.id in (select npl.plugin_id
+                        from trident_work_note_plugin_link npl
+                        where npl.note_id = #{noteId})
+    </select>
+
+    <select id="selectByPluginId" resultType="com.sauron.saurye.domain.pojo.Plugin">
+        select *
+        from trident_work_note_plugin_type
+        where id = #{id}
+    </select>
+
+    <select id="selectPlugins" resultType="com.sauron.saurye.domain.pojo.Plugin" resultMap="NotePluginResultMap">
+        select *
+        from trident_work_note_plugin_type
+    </select>
+
+
+</mapper>
+

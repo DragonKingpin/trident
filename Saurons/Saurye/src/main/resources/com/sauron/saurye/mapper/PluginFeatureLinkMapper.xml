@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.PluginFeatureLinkMapper">
+
+
+    <insert id="addPluginAndFeatureRelationship">
+        insert into lunar_plugin_feature_link(plugin_id, feature_id)
+        values (#{pluginId}, #{featureId})
+    </insert>
+    <delete id="deletePluginAndFeatureRelationshipByPluginId">
+        delete from lunar_plugin_feature_link
+        where plugin_id = #{pluginId}
+    </delete>
+    <delete id="deletePluginAndFeatureRelationshipByFeatureId">
+        delete from lunar_plugin_feature_link
+        where feature_id = #{featureId}
+    </delete>
+
+    <select id="selectFeatureNameByPluginId" resultType="java.lang.String">
+        select f.features_name
+        from lunar_plugin_feature_link pl
+                 join lunar_plugin_features_info f on pl.feature_id = f.id
+        where pl.plugin_id = #{pluginId}
+    </select>
+</mapper>
+

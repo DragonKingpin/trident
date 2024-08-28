@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.PluginFeatureInfoMapper">
+
+    <resultMap id="PluginFeatureResultMap" type="com.sauron.saurye.domain.pojo.PluginFeatureInfo">
+        <id property="id" column="id"/>
+        <result property="featureName" column="feature_name"/>
+        <result property="description" column="description"/>
+        <result property="guid" column="guid"/>
+        <result property="createDateTime" column="create_date_time"/>
+    </resultMap>
+
+    <insert id="insertPluginFeature" useGeneratedKeys="true" keyProperty="id">
+        insert into lunar_plugin_features_info(feature_name,description,guid,create_date_time)
+        values(#{featureName},#{description},#{guid},#{createDateTime})
+    </insert>
+    <update id="updatePluginFeature">
+        update lunar_plugin_features_info
+        <set>
+            <if test="featureName != null">
+                feature_name = #{featureName},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deletePluginFeature">
+        delete from lunar_plugin_features_info where id = #{featureId}
+    </delete>
+
+
+    <select id="selectAllFeature" resultType="com.sauron.saurye.domain.pojo.PluginFeatureInfo" resultMap="PluginFeatureResultMap">
+        select * from lunar_plugin_features_info
+    </select>
+    <select id="selectByFeatureName" resultType="com.sauron.saurye.domain.pojo.PluginFeatureInfo">
+        select * from lunar_plugin_features_info where feature_name = #{featureName}
+    </select>
+    <select id="selectByFeatureId" resultType="com.sauron.saurye.domain.pojo.PluginFeatureInfo">
+        select * from lunar_plugin_features_info where id = #{featureId}
+    </select>
+
+
+</mapper>
+

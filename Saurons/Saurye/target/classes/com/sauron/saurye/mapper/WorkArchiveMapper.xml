@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.WorkArchiveMapper">
+
+    <resultMap id="WorkArchiveMap" type="com.sauron.saurye.domain.pojo.WorkArchive">
+        <id property="id" column="id"/>
+        <result property="createDateTime" column="create_date_time"/>
+        <result property="archiveName" column="archive_name"/>
+        <result property="strategyId" column="strategy_id"/>
+    </resultMap>
+
+    <insert id="addWorkArchive">
+        insert into trident_work_archives(archive_name, strategy_id, guid, create_date_time)
+        values (#{archiveName}, #{strategyId}, #{guid}, #{createDateTime})
+    </insert>
+    <update id="updateWorkArchive">
+        update trident_work_archives
+        <set>
+            <if test="archiveName != null">
+                archive_name = #{archiveName},
+            </if>
+            <if test="strategyId != null">
+                strategy_id = #{strategyId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteWorkArchiveById">
+        delete from trident_work_archives where id = #{workArchiveId}
+    </delete>
+
+
+    <select id="getAllWorkArchive" resultType="com.sauron.saurye.domain.pojo.WorkArchive" resultMap="WorkArchiveMap">
+        select * from trident_work_archives where guid = #{guid}
+    </select>
+    <select id="selectByWorkArchiveName" resultType="com.sauron.saurye.domain.pojo.WorkArchive" resultMap="WorkArchiveMap">
+        select * from trident_work_archives where archive_name = #{archiveName}
+    </select>
+
+
+</mapper>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.PluginCategoryMapper">
+
+    <resultMap id="PluginCategoryResultMap" type="com.sauron.saurye.domain.pojo.PluginCategory">
+        <id property="id" column="id"/>
+        <result property="createDateTime" column="create_date_time"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+    <insert id="addPluginCategory">
+        insert into lunar_plugin_category(category_name,create_date_time)
+        values (#{categoryName},#{createDateTime})
+    </insert>
+    <update id="updatePluginCategory">
+        update lunar_plugin_category
+        <set>
+            <if test="categoryName != null">
+                category_name = #{categoryName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deletePluginCategory">
+        delete from lunar_plugin_category
+        where id = #{categoryId}
+    </delete>
+
+
+    <select id="selectByCategoryId" resultType="com.sauron.saurye.domain.pojo.PluginCategory" resultMap="PluginCategoryResultMap">
+        select *
+        from lunar_plugin_category
+        where id = #{categoryId}
+    </select>
+
+    <select id="listPluginCategory" resultMap="PluginCategoryResultMap">
+        select *
+        from lunar_plugin_category
+    </select>
+</mapper>
+

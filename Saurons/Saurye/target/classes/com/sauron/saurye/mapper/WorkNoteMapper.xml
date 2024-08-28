@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.WorkNoteMapper">
+
+    <resultMap id="WorkNoteResultMap" type="com.sauron.saurye.domain.pojo.WorkNote">
+        <id property="id" column="id"/>
+        <result property="guid" column="guid"/>
+        <result property="content" column="content"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="createDateTime" column="create_date_time"/>
+        <result property="archivesId" column="archives_id"/>
+    </resultMap>
+
+
+    <insert id="insertWorkNote">
+        insert into trident_work_note
+            (guid, archives_id, content, create_date_time, is_deleted)
+        values (#{guid}, #{archivesId}, #{content}, #{createDateTime}, #{isDeleted})
+    </insert>
+
+    <update id="updateWorkNote">
+        update trident_work_note
+        <set>
+            <if test="content != null">content = #{content},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkNoteByWorkArchiveId">
+        delete
+        from trident_work_note
+        where archives_id = #{workArchiveId}
+
+    </delete>
+
+    <select id="selectAllWorkNote" resultType="com.sauron.saurye.domain.pojo.WorkNote" resultMap="WorkNoteResultMap">
+        select *
+        from trident_work_note
+        order by create_date_time desc
+    </select>
+
+    <select id="selectNotesByArchiveId" resultType="com.sauron.saurye.domain.pojo.WorkNote"
+            resultMap="WorkNoteResultMap">
+        select *
+        from trident_work_note
+        where archives_id = #{archiveId}
+    </select>
+</mapper>
+

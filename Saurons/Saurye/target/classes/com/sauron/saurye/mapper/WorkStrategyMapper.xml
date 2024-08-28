@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sauron.saurye.mapper.WorkStrategyMapper">
+
+    <resultMap id="WorkStrategyMapper" type="com.sauron.saurye.domain.pojo.WorkStrategy">
+        <id property="id" column="id"/>
+        <result property="strategyName" column="strategy_name"/>
+    </resultMap>
+
+
+    <select id="selectByStrategyId" resultType="com.sauron.saurye.domain.pojo.WorkStrategy" resultMap="WorkStrategyMapper">
+        select * from trident_work_strategies where id = #{strategyId}
+    </select>
+
+
+</mapper>
+
